@@ -22,5 +22,3 @@ run `make` to compile and test the whole repository.
 ### test
 
 `make test` launch test.
-
-All test executions were check by [valgrind](http://valgrind.org), and remain without memory leaks. 
