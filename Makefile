@@ -2,7 +2,7 @@ CC = cc
 CFLAGS+=-std=c99 -Wall
 
 
-test: stack_test memory_test bintree_test
+test: stack_test memory_test bintree_test int_bst.o
 	@echo ""
 	@./stack_test
 	@./memory_test

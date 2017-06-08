@@ -20,7 +20,7 @@ memory *memo_empty(const size_t sizeof_content, const size_t init_size);
 
 size_t memo_nb_elem(const memory *memo);
 
-// return pointer to a allocated memory of sizeof_content bytes
+// return pointer to an allocated memory of sizeof_content bytes
 void *memo_new_ptr(memory *memo);
 
 // remove element at ptr

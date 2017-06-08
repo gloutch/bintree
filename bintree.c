@@ -69,6 +69,27 @@ node *bt_addr(bintree *bt, node *n) {
   return new;
 }
 
+void bt_replace_right(bintree *bt, node *parent, node *new) {
+
+  if ( !node_is_nil(parent->right) )
+    memo_remove(bt->node_memo, parent->right); // maybe do more than juste remove child
+  parent->right = new;
+  
+  if ( !node_is_nil(new) )
+    new->parent = parent;
+}
+
+void bt_replace_left(bintree *bt, node *parent, node *new) {
+
+  if ( !node_is_nil(parent->left) )
+    memo_remove(bt->node_memo, parent->left);
+  parent->left = new;
+  
+  if ( !node_is_nil(new) )
+    new->parent = parent;
+}
+
+
 void bt_remove(bintree *bt, node *n) {
   if (n->parent->left == n)
     n->parent->left = &(bt->nil);
@@ -80,46 +101,25 @@ void bt_remove(bintree *bt, node *n) {
 
 
 /* #define NODE_GETTER(name) \ */
-/*   node *node_ ## name(node *n, int step) { \ */
-/*   int i = 0; \ */
-/*   while ((i < step) || !node_is_nil(n)) { \ */
-/*     i++; \ */
-/*     n = n-> ## name; \ */
-/*   } \ */
-/*   return n; \ */
+/*   node *node_##name(node *n, int step) { \ */
+/*   return n->##name; \ */
 /* } \ */
   
-node *node_parent(const int step, node *n) {
-  int i = 0;
-  while ((i < step) && !node_is_nil(n)) {
-    i++;
-    n = n->parent;
-  }
-  return n;
+node *node_parent(const node *n) {
+  return n->parent;
+}
+node *node_right(const node *n) {
+  return n->right;
+}
+node *node_left(const node *n) {
+  return n->left;
 }
 
-node *node_right(const int step, node *n) {
-  int i = 0;
-  while ((i < step) && !node_is_nil(n)) {
-    i++;
-    n = n->right;
-  }
-  return n;
-}
-
-node *node_left(const int step, node *n) {
-  int i = 0;
-  while ((i < step) && !node_is_nil(n)) {
-    i++;
-    n = n->left;
-  }
-  return n;
-}
 
 // node_memo store each node like [node, content]
 // data is juste after the node
-void *node_data(node *n) {
-  return (n + 1);
+void *node_data(const node *n) {
+  return (void *) (n + 1);
 }
 
 int node_is_nil(const node *n) {

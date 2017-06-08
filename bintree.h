@@ -17,7 +17,7 @@ typedef struct node node;
 /** Binary Tree (manage memory)
  *
  * Don't manage memory error
- * Don't change to much the nil node
+ * Don't touch to much the nil node
  */
 
 
@@ -35,18 +35,23 @@ node *bt_addl(bintree *bt, node *n);
 
 node *bt_addr(bintree *bt, node *n);
 
+// no tested yet
+void bt_replace_right(bintree *bt, node *parent, node *new);
+
+void bt_replace_left(bintree *bt, node *parent, node *new);
+//
+
 void bt_remove(bintree *bt, node *n);
 
 
-// void node_swap(node *n1, node *n2);
 
-node *node_parent(const int step, node *n);
+node *node_parent(const node *n);
 
-node *node_right(const int step, node *n);
+node *node_right(const node *n);
 
-node *node_left(const int step, node *n);
+node *node_left(const node *n);
 
-void *node_data(node *n);
+void *node_data(const node *n);
 
 int node_is_nil(const node *n);
 

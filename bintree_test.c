@@ -40,7 +40,7 @@ void bintree_add_test() {
    *   n1:'a' <- root
    */
   
-  assert(node_is_nil(node_parent(1, n1)));
+  assert(node_is_nil(node_parent(n1)));
   assert(bt_root(bt) == n1);
   tmp = node_data(bt_root(bt));
   assert(*tmp == 'a');
@@ -57,9 +57,9 @@ void bintree_add_test() {
    *  n2:'b'
    */
  
-  assert(node_left(1, n1) == n2);
-  assert(node_parent(1, n2) == n1);
-  tmp = node_data(node_left(1, bt_root(bt)));
+  assert(node_left(n1) == n2);
+  assert(node_parent(n2) == n1);
+  tmp = node_data(node_left(bt_root(bt)));
   assert(*tmp == 'b');
   assert(bt_size(bt) == 2);
 
@@ -74,11 +74,11 @@ void bintree_add_test() {
    *  n2:'b'   n3:'c'
    */
 
-  assert(node_parent(1, n3) == n1);
-  assert(node_is_nil(node_parent(2, n3)));
-  assert(node_right(1, n1) == n3);
-  assert(node_is_nil(node_right(2, n1)));
-  tmp = node_data(node_right(1, bt_root(bt)));
+  assert(node_parent(n3) == n1);
+  assert(node_is_nil(node_parent(node_parent(n3))));
+  assert(node_right(n1) == n3);
+  assert(node_is_nil(node_right(node_right(n1))));
+  tmp = node_data(node_right(bt_root(bt)));
   assert(*tmp == 'c');
   assert(bt_size(bt) == 3);
   
@@ -112,12 +112,12 @@ void bintree_rm_test() {
    */
 
   bt_remove(bt, n2);
-  assert( node_is_nil(node_left( 1, n1)));
-  assert(!node_is_nil(node_right(1, n1)));
+  assert( node_is_nil(node_left(n1)));
+  assert(!node_is_nil(node_right(n1)));
   assert(bt_size(bt) == 2);
 
   bt_remove(bt, n3);
-  assert(node_is_nil(node_right(1, n1)));
+  assert(node_is_nil(node_right(n1)));
   assert(bt_size(bt) == 1);
 
   bt_remove(bt, n1);
