@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS+=-std=c99 -Wall
+CFLAGS+=-std=c99 -Wall -g -O0
 
 
 test: stack_test memory_test bintree_test int_bst.o
