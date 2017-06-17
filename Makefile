@@ -1,11 +1,12 @@
 CC = cc
-CFLAGS+=-std=c99 -Wall -g -O0
+CFLAGS+=-std=c99 -Wall
 
 
-test: stack_test memory_test
+test: stack_test memory_test bintree_test
 	@echo ""
 	@./stack_test
 	@./memory_test
+	@./bintree_test
 
 %.o: src/%.c
 	$(CC) $(CFLAGS) -c $^
