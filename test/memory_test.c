@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <assert.h>
 
-#include "memory.h"
+#include "../src/memory.h"
 
 
 void memory_empty_test() {

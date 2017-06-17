@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "config.h"
+#include "../config.h"
 #include "memory.h"
 
 
@@ -15,45 +15,36 @@ struct node;
 typedef struct node node;
 
 /** Binary Tree (manage memory)
- *
- * Don't manage memory error
- * Don't touch to much the nil node
+ *   Don't manage memory error
+ *   Don't touch to much the nil node
  */
 
 
 // (sizeof_content == 0 || init_size == 0)  =>  NULL
 bintree *bt_empty(const size_t sizeof_content, const size_t init_size);
 
-// bintree *bt_merge(bintree *bt1, node *at, bintree *bt2);
-
 size_t bt_size(const bintree *bt);
 
 
+const node *bt_nil(const bintree *bt);
+
 node *bt_root(const bintree *bt);
 
-node *bt_addl(bintree *bt, node *n);
-
-node *bt_addr(bintree *bt, node *n);
-
-// no tested yet
-void bt_replace_right(bintree *bt, node *parent, node *new);
-
-void bt_replace_left(bintree *bt, node *parent, node *new);
-//
-
-void bt_remove(bintree *bt, node *n);
+node *bt_node(bintree *bt);
 
 
+void bt_addl(node *parent, node *left);
 
-node *node_parent(const node *n);
+void bt_addr(node *parent,  node *right);
+
+void bt_remove(const bintree *bt, node *n);
+
 
 node *node_right(const node *n);
 
 node *node_left(const node *n);
 
 void *node_data(const node *n);
-
-int node_is_nil(const node *n);
 
 
 void bt_free(bintree *bt);

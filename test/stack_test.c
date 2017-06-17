@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <assert.h>
 
-#include "stack.h"
+#include "../src/stack.h"
 
 
 void stack_empty_test() {

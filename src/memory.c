@@ -28,6 +28,7 @@ struct memory *memo_empty(const size_t sizeof_content, const size_t init_size) {
   
   char *ptr = malloc(sizeof_content * init_size);
   if (ptr == NULL) {
+    stack_free(memo->malloc_ptr);
     free(memo);
     MALLOC_ERROR
     return NULL;

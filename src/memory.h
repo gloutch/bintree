@@ -3,12 +3,11 @@
 
 #include <stdlib.h>
 
-#include "config.h"
+#include "../config.h"
 #include "stack.h"
 
 /** Pool manager (auto malloc)
- * 
- * no error management
+ *    No error management
  */
 
 struct memory;
