@@ -2,6 +2,7 @@
 
 
 struct node {
+  struct node *parent;
   struct node *right;
   struct node *left;
 };
@@ -22,7 +23,8 @@ bintree *bt_empty(const size_t sizeof_content, const size_t init_size) {
     MALLOC_ERROR
     return NULL;
   }
-  
+
+  bt->nil.parent = &(bt->nil);
   bt->nil.right  = &(bt->nil);
   bt->nil.left   = &(bt->nil);
   // store each element as {node, content}
@@ -31,10 +33,6 @@ bintree *bt_empty(const size_t sizeof_content, const size_t init_size) {
   return bt;
 }
 
-
-size_t bt_size(const bintree *bt) {
-  return memo_nb_elem(bt->node_memo);
-}
 
 const node *bt_nil(const bintree *bt) {
   return &(bt->nil);
@@ -50,6 +48,7 @@ node *bt_root(const bintree *bt) {
 node *bt_node(bintree *bt) {
   node *new = memo_new_ptr(bt->node_memo);
 
+  // no need to initialize new->parent
   new->right = &(bt->nil);
   new->left  = &(bt->nil);
   
@@ -59,13 +58,20 @@ node *bt_node(bintree *bt) {
 
 void bt_addl(node *parent, node *left) {
   parent->left = left;
+  left->parent = parent;
 }
 
 void bt_addr(node *parent, node *right) {
   parent->right = right;
+  right->parent = parent;
 }
 
-void bt_remove(const bintree *bt, node *n) {
+void bt_remove(bintree *bt, node *n) {
+  if (n->parent->left == n)
+    n->parent->left = &(bt->nil);
+  else
+    n->parent->right = &(bt->nil);
+  
   memo_remove(bt->node_memo, n);
 }
 

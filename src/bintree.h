@@ -23,8 +23,6 @@ typedef struct node node;
 // (sizeof_content == 0 || init_size == 0)  =>  NULL
 bintree *bt_empty(const size_t sizeof_content, const size_t init_size);
 
-size_t bt_size(const bintree *bt);
-
 
 const node *bt_nil(const bintree *bt);
 
@@ -37,7 +35,7 @@ void bt_addl(node *parent, node *left);
 
 void bt_addr(node *parent,  node *right);
 
-void bt_remove(const bintree *bt, node *n);
+void bt_remove(bintree *bt, node *n);
 
 
 node *node_right(const node *n);
