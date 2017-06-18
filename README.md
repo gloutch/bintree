@@ -2,24 +2,27 @@
 
 It's a first implementation of polymorphic binary tree in C.
 
-
-
-### compiling
-
-run `make` to compile and test the whole repository.
+Run `make` to compile and test the whole project.
 
 
 
-### files
+### implementation
 
-- `stack.c` is a classic stack and manage extending memory.  
+The core issue is about memory management, avoid leaks memory and extend memory as needed
 
-- `memory.c` is a redo of `malloc` basicly.
+- `stack.c` is a classic stack that extends its memory by realloc.
 
-  Its aim is to manage memory to avoid leaks, then have a more friendly usage than `malloc` and `free`.
+  For a constant amortized complexity it doubles its size when the stack is full.
 
-- `bintree.c` is to manage binary tree with nil node on each ends.
+- `memory.c` is a somewhat redo of malloc.
 
+  The main goal is to manage an allocated pool for many objects and avoid leaks memory. 
+
+  It mallocs a pool and stores the pointers of all free elements in it. Then it provides those pointer as needed. Again it double its size but using malloc this time in order to keep valide pointers that are using. Storing each malloced pool pointers in a stack.
+
+- `bintree.c` try to provide basic tree functions.
+
+  Tree must be as a Directed Acyclic Graph (Not properly done today).
 
 
 
@@ -27,4 +30,16 @@ run `make` to compile and test the whole repository.
 
 `make test` launch test.
 
-All executables were checked by [valgrind](http://valgrind.org) and remained without leak memory.
+All executables were checked by [valgrind](http://valgrind.org) and remained without leak memory so far.
+
+
+
+### TODO
+
+1. New bintree implementation
+
+   node had to be free of parent (DAG) but parents have to be informed when its child is removed.
+
+2. Example of Binary Search Tree
+
+3. Dynamique garbage collector maybe…
