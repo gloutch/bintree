@@ -23,13 +23,13 @@ typedef struct node node;
 // (sizeof_content == 0 || init_size == 0)  =>  NULL
 bintree *bt_empty(const size_t sizeof_content, const size_t init_size);
 
-
 const node *bt_nil(const bintree *bt);
 
 node *bt_root(const bintree *bt);
 
-node *bt_node(bintree *bt);
 
+// create node
+node *bt_node(bintree *bt);
 
 void bt_addl(node *parent, node *left);
 
@@ -44,6 +44,12 @@ node *node_left(const node *n);
 
 void *node_data(const node *n);
 
+
+/* void node_free(node *n); */
+
+/* void bt_rm_root(bintree *bt); */
+
+/* void bt_rm_all(bintree *bt); */
 
 void bt_free(bintree *bt);
 

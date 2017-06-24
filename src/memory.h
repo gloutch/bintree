@@ -7,7 +7,8 @@
 #include "stack.h"
 
 /** Pool manager (auto malloc)
- *    No error management
+ *
+ * Possibility of ~ garbage collector
  */
 
 struct memory;
@@ -17,7 +18,10 @@ typedef struct memory memory;
 // (init_size == 0 || sizeof_content == 0)  =>  NULL
 memory *memo_empty(const size_t sizeof_content, const size_t init_size);
 
-size_t memo_nb_elem(const memory *memo);
+size_t memo_nb_occupied(const memory *memo);
+
+// enable tracing garbage collector using function strategy that free unreachable element 
+void memo_collector(memory *memo, void (*strategy)(memory *, void *));
 
 // return pointer to an allocated memory of sizeof_content bytes
 void *memo_new_ptr(memory *memo);

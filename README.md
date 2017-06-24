@@ -8,7 +8,7 @@ Run `make` to compile and test the whole project.
 
 ### implementation
 
-The core issue is about memory management, avoid leaks memory and extend memory as needed
+The core issue is about memory management like extend memory as needed
 
 - `stack.c` is a classic stack that extends its memory by realloc.
 
