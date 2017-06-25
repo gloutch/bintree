@@ -60,39 +60,41 @@ void memo_collector(memory *memo, void (*strategy)(memory *, void *)) {
 }
 
 
-// iterate on each element the strategy
-// memo had to be full
+// iterate on each slot the strategy (memo is full)
 static void garbage_collector(memory *memo) {
   
   int n = stack_size(memo->malloc_ptr);
   // handmade stack
   void *area[n];
-  size_t sizes[n];
+  size_t size[n];
   
   area[0] = stack_pop(memo->malloc_ptr);
-  sizes[0] = memo->size / 2;
-  for (int i = 1; i < n; i++) {
-    area[i] = stack_pop(memo->malloc_ptr);
-    sizes[i] = sizes[i - 1] / 2;
+  size[0] = memo->size / 2;
+  if (n > 1) {
+    for (int i = 1; i < n; i++) {
+      area[i] = stack_pop(memo->malloc_ptr);
+      size[i] = size[i - 1] / 2;
+    }
+    size[n - 1] = size[n - 2];
   }
-
-  // apply strategy
+  
+  // apply garbage collector
   for (int i = 0; i < n ; i++) {
     void *ptr = area[i];
-    for (int j = 0; j < sizes[i]; j++) {
+    for (int j = 0; j < size[i]; j++) {
       (memo->strategy)(memo, ptr);
       ptr += memo->sizeof_content;
     }
   }
 
-  // rebuild memo->malloc_ptr (same order)
+  // rebuild memo->malloc_ptr (in same order)
   for (int i = n - 1; 0 <= i; i--)
     stack_push(memo->malloc_ptr, area[i]);
 }
 
 static void extend_memo(memory *memo) {
-  size_t n = memo->size;
 
+  size_t n = memo->size;
   char *ptr = malloc(memo->sizeof_content * n);
   if (ptr == NULL) {
     MALLOC_ERROR;
@@ -106,15 +108,14 @@ static void extend_memo(memory *memo) {
   memo->size *= 2;
 }
 
-void *memo_new_ptr(memory *memo) {
+void *memo_slot(memory *memo) {
   
   if (stack_is_empty(memo->free_pointer)) {
-
+    // memo is full
     if (memo->bool_gc) {
-      // memo is full
       garbage_collector(memo);
       if (stack_is_empty(memo->free_pointer))
-	extend_memo(memo); 
+	extend_memo(memo);
     } else
       extend_memo(memo);
   }

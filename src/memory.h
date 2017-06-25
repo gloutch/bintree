@@ -24,7 +24,7 @@ size_t memo_nb_occupied(const memory *memo);
 void memo_collector(memory *memo, void (*strategy)(memory *, void *));
 
 // return pointer to an allocated memory of sizeof_content bytes
-void *memo_new_ptr(memory *memo);
+void *memo_slot(memory *memo);
 
 // remove element at ptr
 void memo_remove(memory *memo, void *ptr);

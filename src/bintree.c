@@ -46,7 +46,7 @@ node *bt_root(const bintree *bt) {
 }
 
 node *bt_node(bintree *bt) {
-  node *new = memo_new_ptr(bt->node_memo);
+  node *new = memo_slot(bt->node_memo);
 
   // no need to initialize new->parent
   new->right = &(bt->nil);
