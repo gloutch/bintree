@@ -3,17 +3,19 @@
 
 #include "../src/bintree.h"
 
+#define BOOL_GC 1
+
 
 void bintree_empty_test() {
   printf("\t bintree_empty_test \n");
   
-  bintree *a = bt_empty(0, 1);
+  bintree *a = bt_empty(0, 1, BOOL_GC);
   assert(a == NULL);
 
-  bintree *b = bt_empty(1, 0);
+  bintree *b = bt_empty(1, 0, BOOL_GC);
   assert(b == NULL);
 
-  bintree *bt = bt_empty(1, 1);
+  bintree *bt = bt_empty(1, 1, BOOL_GC);
   assert(bt != NULL);
   assert(bt_root(bt) == bt_nil(bt));
   
@@ -23,14 +25,14 @@ void bintree_empty_test() {
 void bintree_add_test() {
   printf("\t bintree_add_test \n");
 
-  bintree *bt = bt_empty(sizeof(char), 1);
+  bintree *bt = bt_empty(sizeof(char), 1, BOOL_GC);
   /*  nil
    */
 
   assert(bt_root(bt) == bt_nil(bt));
 
   node *n1 = bt_node(bt);
-  bt_addl(bt_root(bt), n1);
+  bt_newl(bt_root(bt), n1);
   *(char *) node_data(n1) = 'a';
   /*   n1:'a'
    */
@@ -39,7 +41,7 @@ void bintree_add_test() {
   assert(*(char *) node_data(bt_root(bt)) == 'a');
 
   node *n2 = bt_node(bt);
-  bt_addl(n1, n2);
+  bt_newl(n1, n2);
   *(char *) node_data(n2) = 'b';
   /*       n1:'a'
    *      /
@@ -51,7 +53,7 @@ void bintree_add_test() {
   assert(*(char *) node_data(node_left(bt_root(bt))) == 'b');
 
   node *n3 = bt_node(bt);
-  bt_addr(n1, n3);
+  bt_newr(n1, n3);
   *(char *) node_data(n3) = 'c';
   /*       n1:'a'
    *      /    \
@@ -69,19 +71,19 @@ void bintree_add_test() {
 void bintree_rm_test() {
   printf("\t bintree_rm_test \n");
 
-  bintree *bt = bt_empty(sizeof(char), 1);
+  bintree *bt = bt_empty(sizeof(char), 1, BOOL_GC);
 
   node *n1 = bt_node(bt);
   *(char *) node_data(n1) = 'a';
-  bt_addl(bt_root(bt), n1);
+  bt_newl(bt_root(bt), n1);
 
   node *n2 = bt_node(bt);
   *(char *) node_data(n2) = 'b';
-  bt_addl(n1, n2);
+  bt_newl(n1, n2);
 
   node *n3 = bt_node(bt);
   *(char *) node_data(n3) = 'c';
-  bt_addr(n1, n3);
+  bt_newr(n1, n3);
   
   /*       n1:'a'
    *      /    \
@@ -89,14 +91,15 @@ void bintree_rm_test() {
    *  n2:'b'   n3:'c'
    */
   
-  bt_remove(bt, n2);
+  bt_newl(n1, bt_nil(bt));
   assert( node_left(n1)  == bt_nil(bt));
   assert( node_right(n1) != bt_nil(bt));
+  assert( node_right(n1) == n3);
 
-  bt_remove(bt, n3);
+  bt_newr(n1, bt_nil(bt));
   assert(node_right(n1) == bt_nil(bt));
 
-  bt_remove(bt, n1);
+  bt_root_nil(bt);
   assert(bt_root(bt) == bt_nil(bt));
   
   bt_free(bt);

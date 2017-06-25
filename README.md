@@ -20,11 +20,11 @@ The core issue is about memory management like extend memory as needed
 
   It mallocs a pool and stores the pointers of all free elements in it. Then it provides those pointer as needed. Again it double its size but using malloc this time in order to keep valide pointers that are using. Storing each malloced pool pointers in a stack.
 
+  Enable a ~garbage collector
+
 - `bintree.c` try to provide basic tree functions.
 
-  Tree must be as a Directed Acyclic Graph (Not properly done today).
-
-
+  Tree must be as a Directed Acyclic Graph.
 
 ### test
 
@@ -36,10 +36,6 @@ All executables were checked by [valgrind](http://valgrind.org) and remained wit
 
 ### TODO
 
-1. New bintree implementation
-
-   node had to be free of parent (DAG) but parents have to be informed when its child is removed.
-
+1. More tests
 2. Example of Binary Search Tree
-
-3. Dynamique garbage collector maybe…
+3. ~ Dynamique garbage collector maybe
