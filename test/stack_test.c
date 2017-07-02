@@ -18,11 +18,12 @@ void stack_empty_test() {
 }
 
 
-void stack_memory_test() {
-  printf("\t stack_memory_test \n");
+void stack_store_test() {
+  printf("\t stack_store_test \n");
 
   stack *s = stack_empty(3);
 
+  // try to expand stack size
   int n = 8;
   for (int i = 0; i < n; i++) {
     assert(stack_size(s) == i);
@@ -34,6 +35,7 @@ void stack_memory_test() {
     assert(stack_pop(s) == &s + i);
     assert(stack_size(s) == i);
   }
+  assert(stack_is_empty(s));
   
   stack_free(s);
 }
@@ -41,9 +43,9 @@ void stack_memory_test() {
 
 int main(int argc, char *argv[]) {
 
-  printf("stack_test: \n");
+  printf("stack_test \n");
   stack_empty_test();
-  stack_memory_test();
+  stack_store_test();
   
   return 0;
 }

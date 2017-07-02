@@ -2,29 +2,28 @@
 
 
 struct node {
-  int parent_counter;
-  
+  int parent_counter;  
   struct node *right;
   struct node *left;
 };
 
 struct bintree {
   struct node nil;
-  struct memory *node_memo;
+  struct pool *pool_node;
 };
 
 
-static void free_unreacheble(memory *memo, void *curr) {
+static void free_unreacheble(pool *pool, void *curr) {
   node *n = curr;
   if (n->parent_counter <= 0) {
     n->right->parent_counter -= 1;
     n->left->parent_counter -= 1;
-    memo_remove(memo, n);
+    pool_remove(pool, n);
   }
 }
 
 
-bintree *bt_empty(const size_t sizeof_content, const size_t init_size, const int bool_garbage_collector) {
+bintree *bt_new(const size_t sizeof_content, const size_t init_size, const int bool_garbage_collector) {
 
   if (sizeof_content == 0 || init_size == 0)
     return NULL;
@@ -40,12 +39,13 @@ bintree *bt_empty(const size_t sizeof_content, const size_t init_size, const int
   bt->nil.left   = &(bt->nil);
 
   // store each element as {node, content}
-  bt->node_memo = memo_empty(sizeof(struct node) + sizeof_content, init_size);
+  bt->pool_node = pool_empty(sizeof(struct node) + sizeof_content, init_size);
   if (bool_garbage_collector)
-    memo_collector(bt->node_memo, free_unreacheble); 
+    pool_collector(bt->pool_node, free_unreacheble); 
   
   return bt;
 }
+
 
 node *bt_root(const bintree *bt) {
   if (bt->nil.right != &(bt->nil))
@@ -71,7 +71,7 @@ void bt_root_nil(bintree *bt) {
 
 
 node *bt_node(bintree *bt) {
-  node *new = memo_slot(bt->node_memo);
+  node *new = pool_slot(bt->pool_node);
 
   new->parent_counter = 0;
   new->right = &(bt->nil);
@@ -101,7 +101,7 @@ node *node_right(const node *n) {
 node *node_left(const node *n) {
   return n->left;
 }
-// node_memo store each node like [node, content]
+// pool_node store each node like [node, content]
 // data is juste after the node
 void *node_data(const node *n) {
   return (void *) (n + 1);
@@ -113,11 +113,11 @@ void bt_free_node(bintree *bt, node *n) {
   n->right->parent_counter -= 1;
   n->left->parent_counter -= 1;
 
-  memo_remove(bt->node_memo, n);
+  pool_remove(bt->pool_node, n);
 }
 
 
 void bt_free(bintree *bt) {
-  memo_free(bt->node_memo);
+  pool_free(bt->pool_node);
   free(bt);
 }

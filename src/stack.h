@@ -9,7 +9,6 @@
 /** Basic stack structure (auto malloc)
  * 
  * only store void pointer
- * no error management
  */
 
 struct stack;

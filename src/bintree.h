@@ -5,7 +5,7 @@
 #include <stdlib.h>
 
 #include "../config.h"
-#include "memory.h"
+#include "pool.h"
 
 
 struct bintree;
@@ -15,13 +15,14 @@ struct node;
 typedef struct node node;
 
 /** Binary Tree (manage memory)
- *   Don't manage memory error
  *   Don't touch too much the nil node
  */
 
 
 // (sizeof_content == 0 || init_size == 0)  =>  NULL
-bintree *bt_empty(const size_t sizeof_content, const size_t init_size, const int bool_garbage_collector);
+bintree *bt_new(const size_t sizeof_content,
+		const size_t init_size,
+		const int bool_garbage_collector);
 
 node *bt_root(const bintree *bt);
 
@@ -45,8 +46,6 @@ void *node_data(const node *n);
 
 
 void bt_free_node(bintree *bt, node *n);
-
-// void bt_free_all_nodes(bintree *bt);
 
 void bt_free(bintree *bt);
 

@@ -14,7 +14,7 @@ The core issue is about memory management like extend memory as needed
 
   For a constant amortized complexity it doubles its size when the stack is full.
 
-- `memory.c` is a somewhat redo of malloc.
+- `pool.c` is a somewhat redo of malloc.
 
   The main goal is to manage an allocated pool for many objects and avoid leaks memory. 
 
@@ -36,6 +36,6 @@ All executables were checked by [valgrind](http://valgrind.org) and remained wit
 
 ### TODO
 
-1. More tests
-2. Example of Binary Search Tree
-3. ~ Dynamique garbage collector maybe
+1. Example of Binary Search Tree
+2. Example int Binary Search Tree
+3. Maybe kd-tree too

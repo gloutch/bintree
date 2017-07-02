@@ -9,13 +9,13 @@
 void bintree_empty_test() {
   printf("\t bintree_empty_test \n");
   
-  bintree *a = bt_empty(0, 1, BOOL_GC);
+  bintree *a = bt_new(0, 1, BOOL_GC);
   assert(a == NULL);
 
-  bintree *b = bt_empty(1, 0, BOOL_GC);
+  bintree *b = bt_new(1, 0, BOOL_GC);
   assert(b == NULL);
 
-  bintree *bt = bt_empty(1, 1, BOOL_GC);
+  bintree *bt = bt_new(1, 1, BOOL_GC);
   assert(bt != NULL);
   assert(bt_root(bt) == bt_nil(bt));
   
@@ -25,7 +25,7 @@ void bintree_empty_test() {
 void bintree_add_test() {
   printf("\t bintree_add_test \n");
 
-  bintree *bt = bt_empty(sizeof(char), 1, BOOL_GC);
+  bintree *bt = bt_new(sizeof(char), 1, BOOL_GC);
   /*  nil
    */
 
@@ -71,7 +71,7 @@ void bintree_add_test() {
 void bintree_rm_test() {
   printf("\t bintree_rm_test \n");
 
-  bintree *bt = bt_empty(sizeof(char), 1, BOOL_GC);
+  bintree *bt = bt_new(sizeof(char), 1, BOOL_GC);
 
   node *n1 = bt_node(bt);
   *(char *) node_data(n1) = 'a';
