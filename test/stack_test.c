@@ -5,7 +5,7 @@
 
 
 void stack_empty_test() {
-  printf("\t stack_empty_test \n");
+  printf("\t stack_empty \n");
 
   stack *s0 = stack_empty(0);
   assert(s0 == NULL);
@@ -19,7 +19,7 @@ void stack_empty_test() {
 
 
 void stack_store_test() {
-  printf("\t stack_store_test \n");
+  printf("\t stack_store \n");
 
   stack *s = stack_empty(3);
 
