@@ -18,6 +18,7 @@ void bintree_empty_test() {
   bintree *bt = bt_new(1, 1, BOOL_GC);
   assert(bt != NULL);
   assert(bt_root(bt) == bt_nil(bt));
+  assert(node_parent(bt_root(bt)) == bt_nil(bt));
   
   bt_free(bt);
 }
@@ -38,6 +39,7 @@ void bintree_add_test() {
    */
   
   assert(bt_root(bt) == n1);
+  assert(node_parent(n1) == bt_nil(bt));
   assert(*(char *) node_data(bt_root(bt)) == 'a');
 
   node *n2 = bt_node(bt);
@@ -50,6 +52,7 @@ void bintree_add_test() {
    */
  
   assert(node_left(n1) == n2);
+  assert(node_parent(n2) == n1);
   assert(*(char *) node_data(node_left(bt_root(bt))) == 'b');
 
   node *n3 = bt_node(bt);
@@ -62,6 +65,7 @@ void bintree_add_test() {
    */
 
   assert(node_right(n1) == n3);
+  assert(node_parent(n3) == n1);
   assert(node_right(node_right(n1)) == bt_nil(bt));
   assert(*(char *) node_data(node_right(bt_root(bt))) == 'c');
   

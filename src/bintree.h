@@ -42,6 +42,8 @@ node *node_right(const node *n);
 
 node *node_left(const node *n);
 
+node *node_parent(const node *n);
+
 void *node_data(const node *n);
 
 

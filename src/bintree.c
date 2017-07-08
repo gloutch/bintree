@@ -2,7 +2,8 @@
 
 
 struct node {
-  int parent_counter;  
+  int parent_counter;
+  struct node *parent;
   struct node *right;
   struct node *left;
 };
@@ -35,10 +36,11 @@ bintree *bt_new(const size_t sizeof_content, const size_t init_size, const int b
   }
 
   bt->nil.parent_counter = 0; // useless
+  bt->nil.parent = &(bt->nil);
   bt->nil.right  = &(bt->nil);
   bt->nil.left   = &(bt->nil);
 
-  // store each element as {node, content}
+  // store each element as [node, content]
   bt->pool_node = pool_empty(sizeof(struct node) + sizeof_content, init_size);
   if (bool_garbage_collector)
     pool_collector(bt->pool_node, free_unreacheble); 
@@ -74,8 +76,9 @@ node *bt_node(bintree *bt) {
   node *new = pool_slot(bt->pool_node);
 
   new->parent_counter = 0;
-  new->right = &(bt->nil);
-  new->left  = &(bt->nil);
+  new->parent = &(bt->nil);
+  new->right  = &(bt->nil);
+  new->left   = &(bt->nil);
   return new;
 }
 
@@ -83,6 +86,7 @@ void bt_newl(node *parent, node *left) {
   parent->left->parent_counter -= 1;
   
   left->parent_counter += 1;
+  left->parent = parent;
   parent->left = left;
 }
 
@@ -90,6 +94,7 @@ void bt_newr(node *parent, node *right) {
   parent->right->parent_counter -= 1;
 
   right->parent_counter += 1;
+  right->parent = parent;
   parent->right = right;
 }
 
@@ -100,6 +105,9 @@ node *node_right(const node *n) {
 }
 node *node_left(const node *n) {
   return n->left;
+}
+node *node_parent(const node *n) {
+  return n->parent;
 }
 // pool_node store each node like [node, content]
 // data is juste after the node
