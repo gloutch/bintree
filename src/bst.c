@@ -55,7 +55,7 @@ void *bst_add(bst *b, const void *data) {
   node *nil    = bt_nil(b->bt);
   node *n      = bt_root(b->bt);
   node *parent = node_parent(n);
-  int cmp;
+  int cmp = 0; // initialize for valgrind, but don't matter
   
   while (n != nil) {
     cmp = b->lt_func(data, node_data(n));

@@ -36,6 +36,6 @@ All executables were checked by [valgrind](http://valgrind.org) and remained wit
 
 ### TODO
 
-1. Example of Binary Search Tree
-2. Example int Binary Search Tree
+1. Uptade the README...
+2. recursive Makefile (outsource building)
 3. Maybe kd-tree too
