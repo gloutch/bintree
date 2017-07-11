@@ -2,40 +2,125 @@
 
 It's a first implementation of polymorphic binary tree in C.
 
-Run `make` to compile and test the whole project.
+As example bintree.h was used to make generic [Binary search tree](https://en.wikipedia.org/wiki/Binary_search_tree), and then a specific **integer binary search tree**.
+
+`make all` compile all sources,  `make clean` delete all binaries.
 
 
 
-### implementation
+### Usage
 
-The core issue is about memory management like extend memory as needed
+Binary tree
 
-- `stack.c` is a classic stack that extends its memory by realloc.
+```
+#include "src/bintree.h"
 
-  For a constant amortized complexity it doubles its size when the stack is full.
+bintree *bt = bt_new(sizeof(int), 
+                     8 /* initial non zero size */,
+                     1 /* enable garbage collector */);
 
-- `pool.c` is a somewhat redo of malloc.
+node *n = bt_node(bt);     /* create node */
+*(int *) node_data(n) = 4; /* give you a ptr to store data */
+bt_newr(bt_root(bt), n);   /* add it at the empty tree */
 
-  The main goal is to manage an allocated pool for many objects and avoid leaks memory. 
+bt_free(bt);
+```
 
-  It mallocs a pool and stores the pointers of all free elements in it. Then it provides those pointer as needed. Again it double its size but using malloc this time in order to keep valide pointers that are using. Storing each malloced pool pointers in a stack.
+Integer binary search tree
 
-  Enable a ~garbage collector
+```
+#include "example/ibst.h"
 
-- `bintree.c` try to provide basic tree functions.
+bst *tree = ibst_new(8 /* initial size */);
 
-  Tree must be as a Directed Acyclic Graph.
+ibst_add(tree, 3);
+ibst_add(tree, -2);
+ibst_rm(tree, 3);
 
-### test
-
-`make test` launch test.
-
-All executables were checked by [valgrind](http://valgrind.org) and remained without leak memory so far.
-
+ibst_free(tree)
+```
 
 
-### TODO
 
-1. Uptade the README...
-2. recursive Makefile (outsource building)
-3. Maybe kd-tree too
+### About memory
+
+The core issue is to limit calls to `malloc` to create each node.
+
+#### Stack
+
+A classic stack that extends its memory by realloc.
+
+For a [constant amortized analysis](https://en.wikipedia.org/wiki/Amortized_analysis#Dynamic_Array) it doubles its size when the stack is full.
+
+#### Pool
+
+A malloced pool manager.
+
+- `pool_empty(sizeof_content, init_size)` mallocs a pool of `init_size` elements and stores all free pointers in a stack. 
+
+- `pool_collector(pool, free_func)` enables ~garbage collector using `free_func` (that had to use `pool_remove`).
+
+- `pool_slot(pool)`  provides pointer to a `sizeof_content` free area. 
+
+  If the pool is full:
+
+  1. if there is a garbage collector function, it will call it on each element to find a free slot.
+
+  2. else, it mallocs a new area and double its size.
+
+​        Again, constant amortized analysis.
+
+- `pool_remove(pool, ptr)` explicitly free this element
+
+  ​
+
+
+
+### Bintree
+
+Provide basic tree functions. Trees are like [Directed acyclic graph](https://en.wikipedia.org/wiki/Directed_acyclic_graph) in order to share node between branches. Therefore nodes can have several parents.
+
+- `bt_new(sizeof_content, init_size, bool)` create a binary tree. `bool` is a way to chose if you want a garbage collector on your nodes (for instance it's useless in bst.c).
+
+- `bt_root(bt)` return `nil` node if the tree is empty, otherwise the root.
+
+  To create a root use `bt_newr(bt_root(bt), root)` and don't touch much `nil` node ;)
+
+- `bt_nil(bt)` return the `nil` node of the binary tree `bt`.
+
+- `bt_root_nil(bt)` remove the root of the `bt` tree.
+
+  Root doesn't have parent so there is a specific function to delete the root.
+
+  ​
+
+- `bt_node(bt)` return a whole new node using `pool_slot`.
+
+- `bt_newr(parent, right)` place `right` as the right child of `parent` (`right` can be `bt_nil(bt)`)
+
+- `bt_newl(parent, left)` similar to above.
+
+  ​
+
+- `node_right(node)` return the right child of `node`
+
+- `node_left(node)` a bit like above
+
+- `node_data(node)` return pointer to area to store data.
+
+- `node_parent(node)`  don't have too much sens in a directed acyclic graph, but return the latest parent of `node`, which is useful in classic tree like bst.
+
+  ​
+
+- `bt_node_free(bt, node)` must be use to explicitly remove a node from memory
+
+- `bt_free(bt)` free the whole tree ans nodes
+
+
+
+
+### Test
+
+`make test` execute all test.
+
+All executables were checked by [valgrind](http://valgrind.org/) and remained without leak memory so far.
