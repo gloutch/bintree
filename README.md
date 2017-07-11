@@ -12,7 +12,7 @@ As example bintree.h was used to make generic [Binary search tree](https://en.wi
 
 Binary tree
 
-```
+```C
 #include "src/bintree.h"
 
 bintree *bt = bt_new(sizeof(int), 
@@ -28,7 +28,7 @@ bt_free(bt);
 
 Integer binary search tree
 
-```
+```C
 #include "example/ibst.h"
 
 bst *tree = ibst_new(8 /* initial size */);
