@@ -1,9 +1,8 @@
 CC = cc
 CFLAGS := -std=c99 -Wall
 
-CFILE = $(wildcard ../src/*.c ../example/*.c)
+CFILE = $(wildcard ../src/*.c)
 OBJ  := $(patsubst ../src/%.c, %.o, $(CFILE))
-OBJ  := $(patsubst ../example/%.c, %.o, $(OBJ))
 
 TEST = $(wildcard ../test/*.c)
 EXEC = $(patsubst ../test/%_test.c, %_test, $(TEST))

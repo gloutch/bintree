@@ -1,7 +1,7 @@
 #ifndef _IBST_H_
 #define _IBST_H_
 
-#include "../src/bst.h"
+#include "bst.h"
 
 
 bst *ibst_new(size_t size);
