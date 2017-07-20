@@ -2,7 +2,7 @@
 
 It's a first implementation of polymorphic binary tree in C.
 
-As example bintree.h was used to make generic [Binary search tree](https://en.wikipedia.org/wiki/Binary_search_tree), and then a specific **integer binary search tree**.
+As example bintree.h was used to make generic [Binary search tree](https://en.wikipedia.org/wiki/Binary_search_tree) (src/bst.h), and then a specific **integer binary search tree** (src/ibst.h).
 
 `make all` compiles all sources,  `make clean` deletes all binaries.
 
@@ -10,26 +10,11 @@ As example bintree.h was used to make generic [Binary search tree](https://en.wi
 
 ### Usage
 
-Binary tree
-
-```C
-#include "src/bintree.h"
-
-bintree *bt = bt_new(sizeof(int), 
-                     8 /* initial non zero size */,
-                     1 /* enable garbage collector */);
-
-node *n = bt_node(bt);     		/* create node */
-*(int *) node_data(n) = 4; 		/* give you a ptr to store data */
-bt_newr(bt_root(bt), n);   		/* add it at the empty tree */
-
-bt_free(bt);
-```
 
 Integer binary search tree
 
 ```C
-#include "example/ibst.h"
+#include "src/ibst.h"
 
 bst *tree = ibst_new(8 /* initial non zero size */);
 
